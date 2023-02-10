@@ -118,16 +118,22 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="g3D-h3-WyP">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="black"/>
                         <constraints>
+                            <constraint firstItem="g3D-h3-WyP" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="6bT-MM-v7g"/>
                             <constraint firstItem="ic8-fa-WtJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="6v3-B6-ABj"/>
                             <constraint firstItem="ic8-fa-WtJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Wv2-wh-G7K"/>
+                            <constraint firstItem="g3D-h3-WyP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Xs5-x8-13j"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ic8-fa-WtJ" secondAttribute="trailing" constant="20" id="fka-mt-mcf"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="g3D-h3-WyP" id="27x-BD-nAo"/>
                         <outlet property="counterLabel" destination="Rfb-II-Kwj" id="Y1y-ZQ-XLo"/>
                         <outlet property="imageView" destination="BUU-3G-epP" id="aag-sR-YpU"/>
                         <outlet property="indexQuestionText" destination="Rfb-II-Kwj" id="7Vj-dn-rMK"/>
