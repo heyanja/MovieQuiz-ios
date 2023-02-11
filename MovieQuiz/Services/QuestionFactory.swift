@@ -20,31 +20,52 @@ class QuestionFactory: QuestionFactoryProtocol {
             
             var imageData = Data() // по умолчанию у нас будут просто пустые данные
             do {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.delegate?.showLoadingIndicator()
+                }
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
                 print("Failed to load image") // тут используем «трюк» с созданием данных из URL. Так как загрузка может пойти не по плану, очень важно обработать ошибку.
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.delegate?
+                        .showNetworkError(message: "Failed to load image")
+                }
+                return
             }
             
             let rating = Float(movie.rating) ?? 0 // превращаем строку в число
+            let arrayRating = Array(5...8)
+            let questionText = Array(arrayLiteral:
+                "Рейтинг этого фильма больше чем",
+                "Рейтинг этого фильма меньше чем")
             
-            let text = "Рейтинг этого фильма больше чем 7?"
-            let correctAnwer = rating > 7
+            let randomQuestion = questionText.randomElement()
+            let randomRating = arrayRating.randomElement()
+            guard let randomRating = randomRating,
+                  let randomQuestion = randomQuestion
+            else { return }
+            let text = "\(randomQuestion) \(randomRating)?"
+            let correctAnswer: Bool
             
+            if randomQuestion == questionText[0] {
+                correctAnswer = rating >
+                Float(randomRating)
+            } else {
+                correctAnswer = rating <
+                Float(randomRating)
+            }
+                    
             let question = QuizQuestion(image: imageData,
                                         text: text,
-                                        correctAnswer: correctAnwer) // Создаём вопрос, определяем его корректность и создаём модель вопроса.
+                                        correctAnswer: correctAnswer) // Создаём вопрос, определяем его корректность и создаём модель вопроса.
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.didRecieveNextQuestion(question: question) // Теперь, когда загрузка и обработка данных завершена, пора вернуться в главный поток. Для этого используется строчка кода DispatchQueue.main.async { [weak self] in. И мы просто возвращаем наш вопрос через делегат.
             }
         }
-        //        guard let index = (0..<questions.count).randomElement() else { delegate?.didRecieveNextQuestion(question: nil)
-        //            return
-        //        }
-        //
-        //        let question = questions [safe: index]
-        //        delegate?.didRecieveNextQuestion(question: question)
     }
 
     func loadData() {
@@ -62,44 +83,3 @@ class QuestionFactory: QuestionFactoryProtocol {
         }
     }
 }
-//    private let questions: [QuizQuestion] = [
-//        QuizQuestion(
-//            image: "The Godfather",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: true),
-//        QuizQuestion(
-//            image: "The Dark Knight",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: true),
-//        QuizQuestion(
-//            image: "Kill Bill",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: true),
-//        QuizQuestion(
-//            image: "The Avengers",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: true),
-//        QuizQuestion(
-//            image: "Deadpool",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: true),
-//        QuizQuestion(
-//            image: "The Green Knight",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: true),
-//        QuizQuestion(
-//            image: "Old",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: false),
-//        QuizQuestion(
-//            image: "The Ice Age Adventures of Buck Wild",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: false),
-//        QuizQuestion(
-//            image: "Tesla",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: false),
-//        QuizQuestion(
-//            image: "Vivarium",
-//            text: "Рейтинг этого фильма больше чем 6?",
-//            correctAnswer: false)]

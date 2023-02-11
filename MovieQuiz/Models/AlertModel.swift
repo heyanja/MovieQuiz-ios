@@ -1,4 +1,5 @@
-import UIKit
+import Foundation
+
 
 struct AlertModel {
     let title: String

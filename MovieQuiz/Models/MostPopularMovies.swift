@@ -21,7 +21,6 @@ struct MostPopularMovie: Codable {
         }
         
         return newURL
-
     }
     
     private enum CodingKeys: String, CodingKey {

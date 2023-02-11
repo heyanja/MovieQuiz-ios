@@ -48,6 +48,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
         let givenAnswer = true
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        blockButton()
     }
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard let currentQuestion = currentQuestion else {
@@ -59,9 +60,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     // MARK: - QuestionFactoryDelegate
     func didRecieveNextQuestion(question: QuizQuestion?) {
+        hideLoadingIndicator()
         guard let question = question else { return }
         currentQuestion = question
-        //quizQuestion = question
         let viewModel = convert(model: question)
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
@@ -70,6 +71,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     // MARK: - Public Functions
     func didLoadDataFromServer() { // сообщение об успешной загрузке
+        hideLoadingIndicator()
         activityIndicator.isHidden = true // скрываем индикатор загрузки
         questionFactory?.requestNextQuestion()
     }
@@ -89,13 +91,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         yesButton.isEnabled = false
     }
     
-    private func showLoadingIndicator() {
+    func showLoadingIndicator() {
         activityIndicator.isHidden = false // говорим, что индикатор загрузки не скрыт
         activityIndicator.startAnimating() // включаем анимацию
     }
     private func hideLoadingIndicator() {
         activityIndicator.isHidden = true
-        activityIndicator.startAnimating()
+        activityIndicator.stopAnimating()
     }
     
     
@@ -160,13 +162,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             })
             alertPresenter?.showQuizResult(model: finalScreen)
         } else {
+            showLoadingIndicator()
             currentQuestionIndex += 1
             questionFactory?.requestNextQuestion()
         }
     }
     
     // MARK: - showNetworkError
-    private func showNetworkError(message: String) {
+    func showNetworkError(message: String) {
         hideLoadingIndicator() // скрываем индикатор загрузки
         // создание и показ алерта
         let errorScreen = AlertModel (title: "Ошибка",
