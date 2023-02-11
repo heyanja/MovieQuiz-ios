@@ -6,4 +6,3 @@ struct QuizStepViewModel {
     let questionNumber: String
 }
 
-

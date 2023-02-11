@@ -46,7 +46,6 @@ class QuestionFactory: QuestionFactoryProtocol {
         //        let question = questions [safe: index]
         //        delegate?.didRecieveNextQuestion(question: question)
     }
-    
 
     func loadData() {
         moviesLoader.loadMovies { [weak self] result in
@@ -58,17 +57,10 @@ class QuestionFactory: QuestionFactoryProtocol {
                     self.delegate?.didLoadDataFromServer() // сообщаем, что данные загрузились
                 case .failure(let error):
                     self.delegate?.didFailToLoadData(with: error) // сообщаем об ошибке нашему MovieQuizViewController
-                    
                 }
-                
             }
         }
-        
-        
-        
-
     }
-    
 }
 //    private let questions: [QuizQuestion] = [
 //        QuizQuestion(

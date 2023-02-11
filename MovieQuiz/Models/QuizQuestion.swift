@@ -5,4 +5,3 @@ struct QuizQuestion {
     let text: String
     let correctAnswer: Bool
 }
-

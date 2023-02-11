@@ -37,3 +37,4 @@ struct MoviesLoader: MoviesLoading { // загрузчик, который бу�
         }
     }
 }
+

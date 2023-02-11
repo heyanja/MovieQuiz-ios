@@ -9,4 +9,3 @@ struct GameRecord: Codable, Comparable {
         return lhs.correct < rhs.correct
     }
 }
-

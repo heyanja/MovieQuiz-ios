@@ -87,4 +87,3 @@ final class StatisticServiceImplementation: StatisticService {
         total += Double(currentGame.total)
     }
 }
-

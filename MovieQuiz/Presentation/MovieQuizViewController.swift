@@ -65,9 +65,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let viewModel = convert(model: question)
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
-            
         }
-        
     }
     
     // MARK: - Public Functions
@@ -127,7 +125,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
     
-    
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
@@ -166,9 +163,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             currentQuestionIndex += 1
             questionFactory?.requestNextQuestion()
         }
-        
     }
-    
     
     // MARK: - showNetworkError
     private func showNetworkError(message: String) {
@@ -185,9 +180,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         })
         alertPresenter?.showQuizResult(model: errorScreen)
     }
-    
-    
-    
 }
 
 
