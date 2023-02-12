@@ -4,9 +4,11 @@ import XCTest // не забывайте импортировать фреймв
 @testable import MovieQuiz // импортируем приложение для тестирования
 
 struct StubNetworkClient: NetworkRouting {
+    
     enum TestError: Error {// тестовая ошибка
         case test
     }
+    
     let emulateError: Bool // этот параметр нужен, чтобы заглушка эмулировала либо ошибку сети, либо успешный ответ
     
     func fetch(url: URL, handler: @escaping(Result<Data, Error>) -> Void) {
@@ -50,6 +52,7 @@ struct StubNetworkClient: NetworkRouting {
                   }
                 """.data(using: .utf8) ?? Data()
     }
+}
 
 class MoviesLoaderTests: XCTestCase {
     func testSuccessLoading() throws {
@@ -79,9 +82,22 @@ class MoviesLoaderTests: XCTestCase {
     
     func testFailureLoading() throws {
         // Given
+        let stubNetworkClient = StubNetworkClient(emulateError: true) // говорим, что хотим эмулировать ошибку
+        let loader = MoviesLoader(networkClient: stubNetworkClient)
         
         // When
+        let expectation = expectation(description: "Loading expectation")
         
-        // Then
+        loader.loadMovies { result in
+            // Then
+            switch result {
+            case .failure(let error):
+                XCTAssertNotNil(error)
+                expectation.fulfill()
+            case .success(_):
+                XCTFail("Unexpected failure")
+            }
+        }
+        waitForExpectations(timeout: 1)
     }
 }
