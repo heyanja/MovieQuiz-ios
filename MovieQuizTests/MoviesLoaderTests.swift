@@ -1,5 +1,3 @@
-
-import Foundation
 import XCTest // не забывайте импортировать фреймворк для тестирования
 @testable import MovieQuiz // импортируем приложение для тестирования
 
