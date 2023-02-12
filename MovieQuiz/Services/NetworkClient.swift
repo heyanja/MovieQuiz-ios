@@ -1,8 +1,12 @@
 // Задача NetworkClient — загружать данные
 
 import Foundation
+
+protocol NetworkRouting { // сетевая маршрутизация
+    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+}
 /// Отвечает за загрузку данных по URL
-struct NetworkClient {
+struct NetworkClient: NetworkRouting {
     
     private enum NetworkError: Error {
         case codeError
@@ -32,3 +36,5 @@ struct NetworkClient {
         task.resume()
     }
 }
+
+

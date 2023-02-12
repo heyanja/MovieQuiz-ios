@@ -7,7 +7,11 @@ protocol MoviesLoading { //создадим в этом же файле прот
 
 struct MoviesLoader: MoviesLoading { // загрузчик, который будет реализовывать этот протокол
     // MARK: - NetworkClient
-    private let networkClient = NetworkClient() // Чтобы создавать запросы к API IMDb, нужен NetworkClient.
+    private let networkClient: NetworkRouting
+    
+    init(networkClient: NetworkRouting = NetworkClient()) {
+        self.networkClient = networkClient
+    }
     
     // MARK: - URL
     private var mostPopularMoviesUrl: URL { // Также нам понадобится URL, на который мы будем делать запрос
@@ -37,3 +41,5 @@ struct MoviesLoader: MoviesLoading { // загрузчик, который бу�
         }
     }
 }
+
+
