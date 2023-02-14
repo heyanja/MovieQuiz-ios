@@ -1,11 +1,15 @@
 import Foundation
 
-struct GameRecord: Codable, Comparable {
+struct GameRecord: Codable {
     let correct: Int
     let total: Int
     let date: Date
-    
-    static func <(lhs: GameRecord, rhs: GameRecord) -> Bool {
-        return lhs.correct < rhs.correct
+}
+extension GameRecord: Comparable {
+    static func < (lhs: GameRecord, rhs: GameRecord) -> Bool {
+        let lhsAccuracy: Double = Double(lhs.correct) / Double(lhs.total)
+        let rhsAccuracy: Double = Double(rhs.correct) / Double(rhs.total)
+        return lhsAccuracy < rhsAccuracy
     }
 }
+

@@ -3,7 +3,8 @@ import Foundation
 class QuestionFactory: QuestionFactoryProtocol {
     private let moviesLoader: MoviesLoading
     private weak var delegate: QuestionFactoryDelegate?
-    
+    private var presenter: MovieQuizPresenter?
+
     init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?) {
         self.moviesLoader = moviesLoader
         self.delegate = delegate
@@ -20,19 +21,9 @@ class QuestionFactory: QuestionFactoryProtocol {
             
             var imageData = Data() // по умолчанию у нас будут просто пустые данные
             do {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    self.delegate?.showLoadingIndicator()
-                }
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
                 print("Failed to load image") // тут используем «трюк» с созданием данных из URL. Так как загрузка может пойти не по плану, очень важно обработать ошибку.
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    self.delegate?
-                        .showNetworkError(message: "Failed to load image")
-                }
-                return
             }
             
             let rating = Float(movie.rating) ?? 0 // превращаем строку в число

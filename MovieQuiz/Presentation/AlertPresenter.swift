@@ -1,11 +1,15 @@
 import UIKit
 
-final class AlertPresenter: AlertPresenterProtocol {
-
-    weak var delegate: UIViewController?
+protocol AlertPresenterProtocol {
     
-    init(delegate: UIViewController) {
-        self.delegate = delegate
+}
+
+class AlertPresenter {
+    
+    weak var viewController: UIViewController?
+
+    init(viewController: UIViewController?) {
+        self.viewController = viewController
     }
     
     func showQuizResult(model: AlertModel) {
@@ -13,16 +17,15 @@ final class AlertPresenter: AlertPresenterProtocol {
             title: model.title,
             message: model.message,
             preferredStyle: .alert)
-        alert.view.accessibilityIdentifier = "Game results"
         let action = UIAlertAction(
             title: model.buttonText,
             style: .default) { _ in
                 model.completion()}
-            
+        
         alert.addAction(action)
         alert.preferredAction = action
-
-        delegate?.present(alert, animated: true, completion: nil)
+        
+        viewController?.present(alert, animated: true, completion: nil)
+        alert.view.accessibilityIdentifier = "alert"
     }
 }
-
