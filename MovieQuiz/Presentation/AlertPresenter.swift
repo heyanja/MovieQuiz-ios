@@ -17,6 +17,7 @@ class AlertPresenter {
             title: model.title,
             message: model.message,
             preferredStyle: .alert)
+        alert.view.accessibilityIdentifier = "Game results"
         let action = UIAlertAction(
             title: model.buttonText,
             style: .default) { _ in
@@ -26,6 +27,5 @@ class AlertPresenter {
         alert.preferredAction = action
         
         viewController?.present(alert, animated: true, completion: nil)
-        alert.view.accessibilityIdentifier = "alert"
     }
 }
